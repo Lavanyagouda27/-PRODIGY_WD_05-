@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WeatherPro | Live Weather</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+<nav class="navbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-cloud-sun"></i>
+
+WeatherPro
+
+</div>
+
+<ul class="nav-links">
+
+<li><a href="index.html">Home</a></li>
+
+<li><a class="active" href="weather.html">Weather</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+<div class="theme-toggle">
+
+<i class="fa-solid fa-moon"></i>
+
+</div>
+
+</nav>
+
+</header>
+
+<!-- ================= WEATHER ================= -->
+
+<section class="weather-page">
+
+<h1>
+
+Live Weather Dashboard
+
+</h1>
+
+<p>
+
+Search any city or automatically detect your current location.
+
+</p>
+
+<!-- SEARCH -->
+
+<div class="search-container">
+
+<input
+type="text"
+id="cityInput"
+placeholder="Enter City Name...">
+
+<button onclick="getWeather()">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+Search
+
+</button>
+
+<button onclick="getLocationWeather()">
+
+<i class="fa-solid fa-location-crosshairs"></i>
+
+Current Location
+
+</button>
+
+<button id="voiceBtn">
+
+<i class="fa-solid fa-microphone"></i>
+
+</button>
+
+</div>
+
+<!-- DATE -->
+
+<div class="date-time">
+
+<h3 id="date"></h3>
+
+<h4 id="time"></h4>
+
+</div>
+
+<!-- LOADER -->
+
+<div id="loader" class="loader">
+
+<div class="spinner"></div>
+
+</div>
+
+<!-- MAIN WEATHER CARD -->
+
+<div class="weather-card">
+
+<img
+id="icon"
+src=""
+alt="Weather Icon">
+
+<h2 id="city">
+
+Loading...
+
+</h2>
+
+<h1 id="temp">
+
+--°C
+
+</h1>
+
+<p id="description">
+
+Detecting weather...
+
+</p>
+
+</div>
+
+<!-- WEATHER DETAILS (Vertical) -->
+
+<div class="weather-details">
+
+<div class="detail-card">
+
+<i class="fa-solid fa-temperature-half"></i>
+
+<h3>Temperature</h3>
+
+<p id="temperature">--</p>
+
+</div>
+
+<div class="detail-card">
+
+<i class="fa-solid fa-droplet"></i>
+
+<h3>Humidity</h3>
+
+<p id="humidity">--</p>
+
+</div>
+
+<div class="detail-card">
+
+<i class="fa-solid fa-wind"></i>
+
+<h3>Wind Speed</h3>
+
+<p id="wind">--</p>
+
+</div>
+
+<div class="detail-card">
+
+<i class="fa-solid fa-gauge-high"></i>
+
+<h3>Pressure</h3>
+
+<p id="pressure">--</p>
+
+</div>
+
+<div class="detail-card">
+
+<i class="fa-solid fa-eye"></i>
+
+<h3>Visibility</h3>
+
+<p id="visibility">--</p>
+
+</div>
+
+<div class="detail-card">
+
+<i class="fa-solid fa-face-smile"></i>
+
+<h3>Feels Like</h3>
+
+<p id="feels">--</p>
+
+</div>
+
+<div class="detail-card">
+
+🌅
+
+<h3>Sunrise</h3>
+
+<p id="sunrise">--</p>
+
+</div>
+
+<div class="detail-card">
+
+🌇
+
+<h3>Sunset</h3>
+
+<p id="sunset">--</p>
+
+</div>
+
+</div>
+
+<!-- ================= FAVORITE CITIES ================= -->
+
+<section class="favorite-section">
+
+<h2>⭐ Favorite Cities</h2>
+
+<div class="favorite-box">
+
+<input
+type="text"
+id="favoriteCity"
+placeholder="Add Favorite City">
+
+<button onclick="addFavorite()">
+
+Add City
+
+</button>
+
+</div>
+
+<div id="favoriteList" class="favorite-list">
+
+</div>
+
+</section>
+
+<!-- ================= RECENT SEARCH ================= -->
+
+<section class="history-section">
+
+<h2>🕒 Recent Searches</h2>
+
+<ul id="history">
+
+</ul>
+
+</section>
+
+<!-- ================= AIR QUALITY ================= -->
+
+<section class="air-quality">
+
+<h2>🌫 Air Quality</h2>
+
+<div class="aqi-card">
+
+<h3 id="aqi">
+
+Loading...
+
+</h3>
+
+<p>
+
+Air Quality Index
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= 5 DAY FORECAST ================= -->
+
+<section class="forecast-section">
+
+<h2>
+
+🌤 5-Day Weather Forecast
+
+</h2>
+
+<div
+id="forecast"
+class="forecast-grid">
+
+</div>
+
+</section>
+
+<!-- ================= WEATHER MAP ================= -->
+
+<section class="map-section">
+
+<h2>
+
+📍 Weather Location
+
+</h2>
+
+<div class="map-card">
+
+<iframe
+id="weatherMap"
+width="100%"
+height="350"
+loading="lazy"
+allowfullscreen
+src="https://maps.google.com/maps?q=India&t=&z=6&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+</div>
+
+</section>
+
+<!-- ================= QUICK WEATHER INFO ================= -->
+
+<section class="quick-info">
+
+<div class="info-card">
+
+<i class="fa-solid fa-cloud-rain"></i>
+
+<h3>Rain Chance</h3>
+
+<p id="rainChance">
+
+--
+
+</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="fa-solid fa-sun"></i>
+
+<h3>UV Index</h3>
+
+<p id="uvIndex">
+
+--
+
+</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="fa-solid fa-water"></i>
+
+<h3>Dew Point</h3>
+
+<p id="dewPoint">
+
+--
+
+</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="fa-solid fa-temperature-low"></i>
+
+<h3>Min / Max</h3>
+
+<p id="minMax">
+
+--
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<div class="footer-container">
+
+<div>
+
+<h2>
+
+WeatherPro
+
+</h2>
+
+<p>
+
+Professional Weather Forecast Application
+
+</p>
+
+</div>
+
+<div>
+
+<h3>
+
+Quick Links
+
+</h3>
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="weather.html">Weather</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="contact.html">Contact</a></li>
+
+</ul>
+
+</div>
+
+<div>
+
+<h3>
+
+Follow Us
+
+</h3>
+
+<div class="social">
+
+<a href="#"><i class="fab fa-facebook"></i></a>
+
+<a href="#"><i class="fab fa-instagram"></i></a>
+
+<a href="#"><i class="fab fa-twitter"></i></a>
+
+<a href="#"><i class="fab fa-github"></i></a>
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<p class="copyright">
+
+© 2026 WeatherPro | Developed using HTML, CSS & JavaScript
+
+</p>
+
+</footer>
+
+<script src="js/app.js"></script>
+
+<script>
+
+window.onload=function(){
+
+updateDateTime();
+
+displayHistory();
+
+loadFavorites();
+
+getLocationWeather();
+
+};
+
+</script>
+
+</body>
+
+</html>
